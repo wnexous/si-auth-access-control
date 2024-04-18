@@ -1,26 +1,33 @@
 package controllers;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 
+ * HOW USE
+ * 
+ * exemple:
+ * DataController dc = new DataController("UsersData.txt");
+ * 
+ */
+
 public class DataController {
 
     private ArrayList<String[]> file;
+    public String fileName;
 
     public DataController(String fileName) {
-        String arquivo = "src/data/" + fileName;
+        this.fileName = "src/data/" + fileName;
 
         try {
-            file = readFile(arquivo);
+            this.file = readFile(this.fileName);
         } catch (Exception e) {
             System.out.println("Erro ao ler arquivo! >>" + e.getMessage());
         }
@@ -28,7 +35,7 @@ public class DataController {
 
     private ArrayList<String[]> readFile(String fileName) throws FileNotFoundException {
 
-        Scanner scanner = new Scanner(new FileReader(fileName)).useDelimiter("\\n");
+        Scanner scanner = new Scanner(new FileReader(fileName)).useDelimiter("\r\n");
         ArrayList<String[]> rows = new ArrayList<String[]>();
 
         while (scanner.hasNext()) {
@@ -69,6 +76,63 @@ public class DataController {
             }
         }
         return null;
+    }
+
+    public void saveFile(String[] header, List<String[]> table) {
+
+        try {
+            FileWriter writer = new FileWriter(this.fileName);
+            BufferedWriter bw = new BufferedWriter(writer);
+
+            // Limpa o arquivo
+            writer.write("");
+
+            // cria o texto do header e escreve;
+            String headerText = "";
+            // for (String column : header) {
+            // headerText += column + ";";
+            // }
+
+            for (int i = 0; i < header.length; i++) {
+                headerText += header[i];
+
+                if ((header.length - 1) != i) {
+                    headerText += ";";
+                }
+
+            }
+            bw.write(headerText);
+
+            // cria o texto de cada linha e escreve;
+
+            for (int i = 0; i < table.size(); i++) {
+
+                String[] row = table.get(i);
+
+                String rowText = "";
+
+                for (int j = 0; j < row.length; j++) {
+                    rowText += row[j];
+
+                    if ((row.length - 1) != j) {
+                        rowText += ";";
+                    }
+                }
+                bw.newLine();
+                bw.append(rowText);
+            }
+
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void appendRow(String[] row) {
+        List<String[]> table = getTable();
+        table.add(row);
+
+        this.saveFile(this.getHeader(), table);
     }
 
 }

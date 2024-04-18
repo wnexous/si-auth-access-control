@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 import controllers.DataController;
 import types.MenuTypes;
 
@@ -9,6 +8,9 @@ public class Main {
 
     public static void main(String[] args) {
         DataController dc = new DataController("UsersData.txt");
+
+        String[] newUser = new String[]{"andre", "888888"};
+        dc.appendRow(newUser);
 
         keyboard = new Scanner(System.in);
 
