@@ -1,21 +1,21 @@
 
 import java.util.ArrayList;
 
-import types.Menu;
+import types.MenuTypes;
 
 class Menus {
 
-    private static String defaultMenuId = Home.class.getSimpleName();;
+    private static String defaultMenuId = HomeMenus.class.getSimpleName();;
     private static String currentMenu = defaultMenuId;
 
-    public static ArrayList<Menu> menusArray = new ArrayList<Menu>();
+    public static ArrayList<MenuTypes> menusArray = new ArrayList<MenuTypes>();
 
-    public void registerMenu(Menu m) {
+    public void registerMenu(MenuTypes m) {
         menusArray.add(m);
     }
 
-    public Menu getCurrentMenu() {
-        for (Menu menu : menusArray) {
+    public MenuTypes getCurrentMenu() {
+        for (MenuTypes menu : menusArray) {
             if (menu.getClass().getSimpleName().equals(this.currentMenu)) {
                 return menu;
             }
@@ -25,7 +25,7 @@ class Menus {
 
     public String getStringifyOptions() {
         String opts = "";
-        Menu menu = this.getCurrentMenu();
+        MenuTypes menu = this.getCurrentMenu();
 
         for (String opt : menu.getOptions()) {
             opts += opt + "\n";
@@ -35,7 +35,7 @@ class Menus {
     }
 
     public String getMenuTitle() {
-        Menu menu = this.getCurrentMenu();
+        MenuTypes menu = this.getCurrentMenu();
         return menu.getTitle();
     }
 

@@ -1,12 +1,15 @@
 import java.util.Scanner;
 
-import types.Menu;
+import controllers.DataController;
+import types.MenuTypes;
 
 public class Main {
 
     public static Scanner keyboard;
 
     public static void main(String[] args) {
+        DataController dc = new DataController("UsersData.txt");
+
         keyboard = new Scanner(System.in);
 
         // Registra os menus
@@ -16,8 +19,7 @@ public class Main {
         Menus menus = new Menus();
 
         while (true) {
-
-            Menu menu = menus.getCurrentMenu();
+            MenuTypes menu = menus.getCurrentMenu();
 
             if (menu == null)
                 throw new Error("tentou acessar um menu inexistente!");
@@ -36,8 +38,6 @@ public class Main {
 
             // inputa a opcao selecionada na callback do menu
             menu.onSelectOption(opt);
-
         }
-
     }
 }

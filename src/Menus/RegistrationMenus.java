@@ -3,8 +3,8 @@ class RegistrationMenu extends Menus {
 
     public RegistrationMenu() {
 
-        this.registerMenu(new Home());
-        this.registerMenu(new Login());
+        this.registerMenu(new HomeMenus());
+        this.registerMenu(new LoginMenus());
 
     }
 

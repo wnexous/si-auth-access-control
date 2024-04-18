@@ -2,7 +2,7 @@ package types;
 
 import java.util.ArrayList;
 
-public interface Menu {
+public interface MenuTypes {
 
     public String getMenuId();
     public void onSelectOption(Number o);
