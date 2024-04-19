@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.Scanner;
 import controllers.DataController;
 import types.MenuTypes;
@@ -9,8 +10,10 @@ public class Main {
     public static void main(String[] args) {
         DataController dc = new DataController("UsersData.txt");
 
-        String[] newUser = new String[]{"andre", "888888"};
-        dc.appendRow(newUser);
+        String[] newUser = new String[] { "andre3", new String().format("%d", new Date().getTime()) };
+        // dc.appendRow(newUser);
+        // dc.removeRowByIndex(0);
+        // System.out.println(dc.findIndexFromItemByColumn("andre2", "nome"));
 
         keyboard = new Scanner(System.in);
 

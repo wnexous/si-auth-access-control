@@ -78,6 +78,20 @@ public class DataController {
         return null;
     }
 
+    public Integer findIndexFromItemByColumn(String item, String column) {
+        String[] header = this.getHeader();
+        List<String[]> table = this.getTable();
+        for (int i = 0; i < header.length; i++) {
+            if (header[i].equals(column)) {
+                for (String[] row : table) {
+                    if (row[i].equals(item))
+                        return table.indexOf(row);
+                }
+            }
+        }
+        return null;
+    }
+
     public void saveFile(String[] header, List<String[]> table) {
 
         try {
@@ -132,6 +146,13 @@ public class DataController {
         List<String[]> table = getTable();
         table.add(row);
 
+        this.saveFile(this.getHeader(), table);
+    }
+
+    public void removeRowByIndex(int index) {
+        List<String[]> table = getTable();
+
+        table.remove(index);
         this.saveFile(this.getHeader(), table);
     }
 
