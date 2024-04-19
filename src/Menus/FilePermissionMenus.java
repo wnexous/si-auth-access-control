@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
-import types.MenuTypes;
+import interfaces.MenuInterfaces;
 
-public class FilePermissionMenus extends Menus implements MenuTypes{
+public class FilePermissionMenus extends Menus implements MenuInterfaces{
 
     @Override
     public String getMenuId() {

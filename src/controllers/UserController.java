@@ -9,6 +9,10 @@ public class UserController {
         username = user;
     }
 
+    public UserController(String user) {
+        username = user;
+    }
+
     public String getUsername() {
         return username;
     }

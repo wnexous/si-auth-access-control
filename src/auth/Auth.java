@@ -4,10 +4,16 @@ import controllers.UserController;
 
 public class Auth {
 
+    private static Boolean isAuth = false;
+
     private UserController user;
 
     public Auth(UserController user) {
         this.user = user;
+    }
+
+    public static Boolean isAuth() {
+        return isAuth;
     }
 
     public ValidatorI getUserIsValid() {
@@ -28,6 +34,7 @@ public class Auth {
 
     public static interface ValidatorI {
         public boolean isValid();
+
         public String message();
     }
 

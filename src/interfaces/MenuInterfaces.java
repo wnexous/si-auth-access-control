@@ -1,8 +1,8 @@
-package types;
+package interfaces;
 
 import java.util.ArrayList;
 
-public interface MenuTypes {
+public interface MenuInterfaces {
 
     public String getMenuId();
     public void onSelectOption(Number o);

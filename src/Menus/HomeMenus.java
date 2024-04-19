@@ -1,7 +1,7 @@
 import java.util.ArrayList;
-import types.MenuTypes;
+import interfaces.MenuInterfaces;
 
-public class HomeMenus extends Menus implements MenuTypes {
+public class HomeMenus extends Menus implements MenuInterfaces {
 
     public void onSelectOption(Number o) {
 

@@ -1,7 +1,9 @@
 import java.util.Date;
 import java.util.Scanner;
+
+import auth.Auth;
 import controllers.DataController;
-import types.MenuTypes;
+import interfaces.MenuInterfaces;
 
 public class Main {
 
@@ -24,7 +26,14 @@ public class Main {
         Menus menus = new Menus();
 
         while (true) {
-            MenuTypes menu = menus.getCurrentMenu();
+
+            if (!Auth.isAuth()) {
+
+                System.out.println("Usuario ainda não autênticado. Favor realizar login");
+                menus.changeCurrentMenu(LoginMenus.class.getSimpleName());
+            }
+
+            MenuInterfaces menu = menus.getCurrentMenu();
 
             if (menu == null)
                 throw new Error("tentou acessar um menu inexistente!");

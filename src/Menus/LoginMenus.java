@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import controllers.UserController;
-import types.MenuTypes;
+import interfaces.MenuInterfaces;
 
-public class LoginMenus extends Menus implements MenuTypes {
+public class LoginMenus extends Menus implements MenuInterfaces {
 
     Scanner input = new Scanner(System.in);
 

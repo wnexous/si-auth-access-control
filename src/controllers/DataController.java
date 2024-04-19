@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import types.DataColumnTypes;
+
 /**
  * 
  * HOW USE
@@ -51,6 +53,16 @@ public class DataController {
         return this.file;
     }
 
+    public Integer getIndexFromColumn(DataColumnTypes column) {
+        String[] header = getHeader();
+        for (int i = 0; i < header.length; i++) {
+            if (header[i].equals(column.getColumnName()))
+                return i;
+
+        }
+        return null;
+    }
+
     public String[] getHeader() {
         if (this.file != null)
             return this.file.get(0);
@@ -64,11 +76,11 @@ public class DataController {
         return null;
     }
 
-    public String[] findItemByColumn(String item, String column) {
+    public String[] findItemByColumn(String item, DataColumnTypes column) {
         String[] header = this.getHeader();
         List<String[]> table = this.getTable();
         for (int i = 0; i < header.length; i++) {
-            if (header[i].equals(column)) {
+            if (header[i].equals(column.getColumnName())) {
                 for (String[] row : table) {
                     if (row[i].equals(item))
                         return row;
@@ -78,11 +90,11 @@ public class DataController {
         return null;
     }
 
-    public Integer findIndexFromItemByColumn(String item, String column) {
+    public Integer findIndexFromItemByColumn(String item, DataColumnTypes column) {
         String[] header = this.getHeader();
         List<String[]> table = this.getTable();
         for (int i = 0; i < header.length; i++) {
-            if (header[i].equals(column)) {
+            if (header[i].equals(column.getColumnName())) {
                 for (String[] row : table) {
                     if (row[i].equals(item))
                         return table.indexOf(row);
