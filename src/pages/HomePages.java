@@ -1,12 +1,16 @@
-import java.util.ArrayList;
-import interfaces.MenuInterfaces;
+package pages;
 
-public class HomeMenus extends Menus implements MenuInterfaces {
+import java.util.ArrayList;
+
+import controllers.PageController;
+import interfaces.PageInterfaces;
+
+public class HomePages extends PageController implements PageInterfaces {
 
     public void onSelectOption(Number o) {
 
         if (o.equals(1)) {
-            this.changeCurrentMenu(LoginMenus.class.getSimpleName());
+            setCurrentPage(LoginPages.class);
         }
         if (o.equals(0)) {
             System.exit(0);

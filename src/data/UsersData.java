@@ -32,7 +32,16 @@ public class UsersData extends DataController {
             return null;
 
         String usernameData = useyArray[this.getIndexFromColumn(userColumn)];
-        UserController userController = new UserController(usernameData);
+        String passwordData = useyArray[this.getIndexFromColumn(passColumn)];
+        
+        UserController userController = new UserController(usernameData, passwordData);
         return userController;
+    }
+
+    public void createUser(UserController user) {
+
+        String[] userRow = new String[] { user.getUsername(), user.getPassword() };
+        this.appendRow(userRow);
+
     }
 }

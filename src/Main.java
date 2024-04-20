@@ -1,39 +1,39 @@
-import java.util.Date;
 import java.util.Scanner;
-
 import auth.Auth;
-import controllers.DataController;
-import interfaces.MenuInterfaces;
+import controllers.PageController;
+import interfaces.PageInterfaces;
+import pages.LoginPages;
+import pages.RegistrationPages;
 
 public class Main {
 
     public static Scanner keyboard;
 
     public static void main(String[] args) {
-        DataController dc = new DataController("UsersData.txt");
-
-        String[] newUser = new String[] { "andre3", new String().format("%d", new Date().getTime()) };
-        // dc.appendRow(newUser);
-        // dc.removeRowByIndex(0);
-        // System.out.println(dc.findIndexFromItemByColumn("andre2", "nome"));
 
         keyboard = new Scanner(System.in);
 
-        // Registra os menus
-        new RegistrationMenu();
+        // Registra as paginas
+        new RegistrationPages();
 
         // obtem-se o gerenciador de menus e o menu atual
-        Menus menus = new Menus();
+        PageController pages = new PageController();
 
         while (true) {
+            System.out.println("\n".repeat(20));
 
-            if (!Auth.isAuth()) {
+            if (!Auth.getUserIsValid().isValid()) {
 
-                System.out.println("Usuario ainda não autênticado. Favor realizar login");
-                menus.changeCurrentMenu(LoginMenus.class.getSimpleName());
+                String reasonMessage = Auth.getUserIsValid().message();
+                PageController.setCurrentPage(LoginPages.class);
+
+                if (reasonMessage != null) {
+                    System.out.println(">> " + reasonMessage);
+                }
             }
 
-            MenuInterfaces menu = menus.getCurrentMenu();
+            PageInterfaces menu = pages.getCurrentPage();
+            System.out.println(menu);
 
             if (menu == null)
                 throw new Error("tentou acessar um menu inexistente!");
@@ -42,7 +42,7 @@ public class Main {
             System.out.println(menu.getTitle());
 
             // mostra as opcoes do menu
-            System.out.println(menus.getStringifyOptions());
+            System.out.println(pages.getStringifyOptions());
 
             // requere que o usuario selecione uma opcao
             System.out.printf("\nSelecione uma opção: ");

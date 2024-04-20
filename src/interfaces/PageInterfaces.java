@@ -2,11 +2,14 @@ package interfaces;
 
 import java.util.ArrayList;
 
-public interface MenuInterfaces {
+public interface PageInterfaces {
 
     public String getMenuId();
+
     public void onSelectOption(Number o);
+
     public String getTitle();
+
     public ArrayList<String> getOptions();
 
 }

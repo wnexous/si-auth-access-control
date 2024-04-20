@@ -1,8 +1,11 @@
+package pages;
+
 import java.util.ArrayList;
 
-import interfaces.MenuInterfaces;
+import controllers.PageController;
+import interfaces.PageInterfaces;
 
-public class FilePermissionMenus extends Menus implements MenuInterfaces{
+public class FilePermissionPages extends PageController implements PageInterfaces {
 
     @Override
     public String getMenuId() {
@@ -27,5 +30,5 @@ public class FilePermissionMenus extends Menus implements MenuInterfaces{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getOptions'");
     }
-    
+
 }

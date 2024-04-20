@@ -2,23 +2,27 @@ package controllers;
 
 public class UserController {
 
-    private static String username, password;
+    private String username, password;
 
     public UserController(String user, String pwd) {
-        password = pwd;
-        username = user;
+        this.password = pwd;
+        this.username = user;
     }
 
-    public UserController(String user) {
-        username = user;
-    }
+    // public UserController(String user) {
+    //     this.username = user;
+    // }
 
     public String getUsername() {
-        return username;
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
     public Boolean verifyPassword(String pwd) {
-        return password.equals(pwd);
+        return this.password.equals(pwd);
     }
 
 }

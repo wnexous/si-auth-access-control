@@ -1,10 +1,14 @@
+package pages;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import auth.Auth;
+import controllers.PageController;
 import controllers.UserController;
-import interfaces.MenuInterfaces;
+import interfaces.PageInterfaces;
 
-public class LoginMenus extends Menus implements MenuInterfaces {
+public class LoginPages extends PageController implements PageInterfaces {
 
     Scanner input = new Scanner(System.in);
 
@@ -13,7 +17,7 @@ public class LoginMenus extends Menus implements MenuInterfaces {
 
         // Retorar ao menu inicial
         if (o.equals(0)) {
-            changeCurrentMenu(HomeMenus.class.getSimpleName());
+            PageController.setCurrentPage(HomePages.class);
         }
 
         // Realizar login
@@ -26,9 +30,8 @@ public class LoginMenus extends Menus implements MenuInterfaces {
 
             UserController user = new UserController(username, password);
 
-
+            Auth.setCurrentUser(user);
         }
-
     }
 
     @Override
