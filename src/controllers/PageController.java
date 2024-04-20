@@ -6,8 +6,8 @@ import pages.HomePages;
 
 public class PageController {
 
-    private static String defaultMenuId = HomePages.class.getSimpleName();
-    private static String currentPage = defaultMenuId;
+    // private static String defaultPageId = HomePages.class.getSimpleName();
+    private static String currentPage = HomePages.class.getName();
 
     public static ArrayList<PageInterfaces> pagesArray = new ArrayList<PageInterfaces>();
 
@@ -18,10 +18,12 @@ public class PageController {
     public static void setCurrentPage(Object menu) {
         currentPage = menu.getClass().getSimpleName();
     }
+    public static void setCurrentPage(String menu) {
+        currentPage = menu;
+    }
+    
 
     public PageInterfaces getCurrentPage() {
-
-        System.out.println("currentPage " + currentPage);
         for (PageInterfaces page : pagesArray) {
             if (page.getClass().getSimpleName().equals(currentPage)) {
                 return page;

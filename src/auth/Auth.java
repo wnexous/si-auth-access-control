@@ -39,7 +39,7 @@ public class Auth extends UsersData {
 
         user = u;
         isAuth = true;
-        PageController.setCurrentPage(HomePages.class);
+        PageController.setCurrentPage(HomePages.class.getSimpleName());
     }
 
     public static Boolean isAuth() {

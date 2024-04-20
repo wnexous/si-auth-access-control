@@ -17,7 +17,7 @@ public class LoginPages extends PageController implements PageInterfaces {
 
         // Retorar ao menu inicial
         if (o.equals(0)) {
-            PageController.setCurrentPage(HomePages.class);
+            PageController.setCurrentPage(HomePages.class.getSimpleName());
         }
 
         // Realizar login

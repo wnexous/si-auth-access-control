@@ -10,7 +10,7 @@ public class HomePages extends PageController implements PageInterfaces {
     public void onSelectOption(Number o) {
 
         if (o.equals(1)) {
-            setCurrentPage(LoginPages.class);
+            setCurrentPage(LoginPages.class.getSimpleName());
         }
         if (o.equals(0)) {
             System.exit(0);

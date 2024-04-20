@@ -25,7 +25,7 @@ public class Main {
             if (!Auth.getUserIsValid().isValid()) {
 
                 String reasonMessage = Auth.getUserIsValid().message();
-                PageController.setCurrentPage(LoginPages.class);
+                PageController.setCurrentPage(LoginPages.class.getSimpleName());
 
                 if (reasonMessage != null) {
                     System.out.println(">> " + reasonMessage);
@@ -33,7 +33,6 @@ public class Main {
             }
 
             PageInterfaces menu = pages.getCurrentPage();
-            System.out.println(menu);
 
             if (menu == null)
                 throw new Error("tentou acessar um menu inexistente!");
