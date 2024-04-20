@@ -23,14 +23,27 @@ public class LoginPages extends PageController implements PageInterfaces {
         // Realizar login
         if (o.equals(1)) {
             System.out.println("Username: ");
-            String username = input.next();
+            String username = input.nextLine();
 
             System.out.println("Password: ");
-            String password = input.next();
+            String password = input.nextLine();
 
             UserController user = new UserController(username, password);
 
-            Auth.setCurrentUser(user);
+            Auth.signIn(user);
+        }
+
+        // Cadastrar conta
+        if (o.equals(2)) {
+            System.out.println("Username: ");
+            String username = input.nextLine();
+
+            System.out.println("Password: ");
+            String password = input.nextLine();
+
+            UserController user = new UserController(username, password);
+
+            Auth.signUp(user);
         }
     }
 
