@@ -13,15 +13,15 @@ public class LoginPages extends PageController implements PageInterfaces {
     Scanner input = new Scanner(System.in);
 
     @Override
-    public void onSelectOption(Integer o) {
+    public void onSelectOption(String o) {
 
         // Retorar ao menu inicial
-        if (o.equals(0)) {
+        if (o.equals("0")) {
             System.exit(0);
         }
 
         // Realizar login
-        if (o.equals(1)) {
+        if (o.equals("1")) {
             System.out.println("Username: ");
             String username = input.nextLine();
 
@@ -34,7 +34,7 @@ public class LoginPages extends PageController implements PageInterfaces {
         }
 
         // Cadastrar conta
-        if (o.equals(2)) {
+        if (o.equals("2")) {
             System.out.println("Username: ");
             String username = input.nextLine();
 

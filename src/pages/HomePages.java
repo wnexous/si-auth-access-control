@@ -7,12 +7,12 @@ import interfaces.PageInterfaces;
 
 public class HomePages extends PageController implements PageInterfaces {
 
-    public void onSelectOption(Integer o) {
+    public void onSelectOption(String o) {
 
-        if (o.equals(1)) {
+        if (o.equals("1")) {
             setCurrentPage(FilePermissionPages.class.getSimpleName());
         }
-        if (o.equals(0)) {
+        if (o.equals("0")) {
             System.exit(0);
         }
     }

@@ -164,6 +164,15 @@ public class DataController {
             }
 
             bw.close();
+
+            // ArrayList<String[]> file = new ArrayList<String[]>();
+            // file.add(header);
+
+            // for (String[] row : table) {
+            //     file.add(row);
+            // }
+            this.file = readFile(this.fileName);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,13 +187,21 @@ public class DataController {
 
     public void removeRowByIndex(int index) {
         List<String[]> table = getTable();
+        List<String[]> newTable = new ArrayList<String[]>();
 
         if (table == null)
             return;
 
         // TODO: resolver erro ao remover pelo index;
-        table.remove(index);
-        this.saveFile(this.getHeader(), table);
+
+        for (int i = 0; i < newTable.size(); i++) {
+            if (i != index)
+                newTable.add(table.get(i));
+
+        }
+        // table.remove(index);
+
+        this.saveFile(this.getHeader(), newTable);
     }
 
     public void removeRowByRow(String[] row) {

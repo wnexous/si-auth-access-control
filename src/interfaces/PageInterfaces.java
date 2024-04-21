@@ -6,7 +6,7 @@ public interface PageInterfaces {
 
     // public String getMenuId();
 
-    public void onSelectOption(Integer o);
+    public void onSelectOption(String o);
 
     public String getTitle();
 

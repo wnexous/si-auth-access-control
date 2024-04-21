@@ -56,7 +56,7 @@ public class Main {
             System.out.printf("\nSelecione uma opção: ");
 
             // captura a opcao selecionada
-            Integer opt = keyboard.nextInt();
+            String opt = keyboard.nextLine();
 
             // inputa a opcao selecionada na callback do menu
             menu.onSelectOption(opt);

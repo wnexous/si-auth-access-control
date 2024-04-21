@@ -19,13 +19,13 @@ public class FilePermissionPages extends PageController implements PageInterface
     protected PermissionsData permissionsData = new PermissionsData();
 
     @Override
-    public void onSelectOption(Integer o) {
+    public void onSelectOption(String o) {
 
-        if (o == 1)
+        if (o.equals("1"))
             listFiles();
-        if (o == 2)
+        if (o.equals("2"))
             createFile();
-        if (o == 4)
+        if (o.equals("4"))
             deleteFile();
 
     }
@@ -52,6 +52,9 @@ public class FilePermissionPages extends PageController implements PageInterface
         System.out.println("Arquivos existentes: ");
         File[] files = FileController.getFolderFiles();
 
+        if (files.length == 0) {
+            System.out.println("* Nenhum arquivo encontrado *");
+        }
         for (int i = 0; i < files.length; i++) {
             Integer fileIndex = i + 1;
             System.out.printf("\n%d) %s", fileIndex, files[i].getName());
@@ -60,7 +63,7 @@ public class FilePermissionPages extends PageController implements PageInterface
 
     protected void createFile() {
         System.out.println("Digite o nome do arquivo:");
-        String fileName = input.nextLine();
+        String fileName = input.next();
         // PermissionsData permissionsData = new PermissionsData();
         try {
             FileController.createFile(fileName);
