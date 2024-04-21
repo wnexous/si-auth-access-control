@@ -1,5 +1,9 @@
 package data;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import controllers.DataController;
 import controllers.PermissionController;
 import types.DataColumnTypes;
@@ -19,32 +23,67 @@ public class PermissionsData extends DataController {
         super("PermissionsData.txt");
     }
 
-    public PermissionController getPermissionByUser(UserTypes user) {
-        String[] useyArray = this.findItemByColumn(user.getUsername(), userColumn);
+    // public PermissionController getPermissionByUser(UserTypes user) {
+    //     String[] rowArray = this.findItemByColumn(user.getUsername(), userColumn);
+
+    //     // Caso nao encontre o usuario na tabela, retorna nulo
+    //     if (rowArray == null)
+    //         return null;
+
+    //     String usernameData = rowArray[this.getIndexFromColumn(userColumn)];
+    //     String fileData = rowArray[this.getIndexFromColumn(fileColumn)];
+
+    //     Boolean readData = Boolean.parseBoolean(rowArray[this.getIndexFromColumn(readColumn)]);
+    //     Boolean deleteData = Boolean.parseBoolean(rowArray[this.getIndexFromColumn(deleteColumn)]);
+    //     Boolean executeData = Boolean.parseBoolean(rowArray[this.getIndexFromColumn(executeColumn)]);
+
+    //     // PermissionController precisa de um UserController como parametro em sua
+    //     // instancia
+    //     UserTypes userController = usersData.getUserByUsername(usernameData);
+
+    //     PermissionController permissionController = new PermissionController(
+    //             userController,
+    //             fileData,
+    //             readData,
+    //             deleteData,
+    //             executeData);
+
+    //     return permissionController;
+    // }
+
+    public List<PermissionController> getPermissionsFromFile(File file) {
+        List<String[]> rowArray = this.findItemsByColumn(file.getName(), fileColumn);
 
         // Caso nao encontre o usuario na tabela, retorna nulo
-        if (useyArray == null)
+        if (rowArray == null)
             return null;
 
-        String usernameData = useyArray[this.getIndexFromColumn(userColumn)];
-        String fileData = useyArray[this.getIndexFromColumn(fileColumn)];
+        List<PermissionController> permissions = new ArrayList<PermissionController>();
 
-        Boolean readData = Boolean.parseBoolean(useyArray[this.getIndexFromColumn(readColumn)]);
-        Boolean deleteData = Boolean.parseBoolean(useyArray[this.getIndexFromColumn(deleteColumn)]);
-        Boolean executeData = Boolean.parseBoolean(useyArray[this.getIndexFromColumn(executeColumn)]);
+        for (String[] row : rowArray) {
 
-        // PermissionController precisa de um UserController como parametro em sua
-        // instancia
-        UserTypes userController = usersData.getUserByUsername(usernameData);
+            String usernameData = row[this.getIndexFromColumn(userColumn)];
+            String fileData = row[this.getIndexFromColumn(fileColumn)];
 
-        PermissionController permissionController = new PermissionController(
-                userController,
-                fileData,
-                readData,
-                deleteData,
-                executeData);
+            Boolean readData = PermissionController.parsePermission(row[this.getIndexFromColumn(readColumn)]);
+            Boolean deleteData = PermissionController.parsePermission(row[this.getIndexFromColumn(deleteColumn)]);
+            Boolean executeData = PermissionController.parsePermission(row[this.getIndexFromColumn(executeColumn)]);
 
-        return permissionController;
+            // PermissionController precisa de um UserController como parametro em sua
+            // instancia
+            UserTypes userController = usersData.getUserByUsername(usernameData);
+
+            PermissionController permissionController = new PermissionController(
+                    userController,
+                    fileData,
+                    readData,
+                    deleteData,
+                    executeData);
+
+            permissions.add(permissionController);
+        }
+
+        return permissions;
     }
 
     public void createPermission(PermissionController perm) {

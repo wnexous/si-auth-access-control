@@ -90,6 +90,21 @@ public class DataController {
         return null;
     }
 
+    public List<String[]> findItemsByColumn(String item, DataColumnTypes column) {
+        String[] header = this.getHeader();
+        List<String[]> table = this.getTable();
+        List<String[]> finded = new ArrayList<String[]>();
+        for (int i = 0; i < header.length; i++) {
+            if (header[i].equals(column.getColumnName())) {
+                for (String[] row : table) {
+                    if (row[i].equals(item))
+                        finded.add(row);
+                }
+            }
+        }
+        return finded;
+    }
+
     public Integer findIndexFromItemByColumn(String item, DataColumnTypes column) {
         String[] header = this.getHeader();
         List<String[]> table = this.getTable();

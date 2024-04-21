@@ -1,1 +1,2 @@
 username;file;read;delete;execute
+teste;teste.txt;1;1;1

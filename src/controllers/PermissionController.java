@@ -48,7 +48,11 @@ public class PermissionController {
         return stringfyPermission(this.execute);
     }
 
-    protected String stringfyPermission(Boolean perm) {
+    public static String stringfyPermission(Boolean perm) {
         return perm ? "1" : "0";
+    }
+
+    public static Boolean parsePermission(String perm) {
+       return perm.equals("1");
     }
 }
