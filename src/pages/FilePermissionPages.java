@@ -25,6 +25,8 @@ public class FilePermissionPages extends PageController implements PageInterface
             listFiles();
         if (o.equals("2"))
             createFile();
+        if (o.equals("3"))
+            readFile();
         if (o.equals("4"))
             deleteFile();
 
@@ -98,14 +100,15 @@ public class FilePermissionPages extends PageController implements PageInterface
             System.out.printf("Número de arquivo invalido. Escolha algo entre 1 a %d", files.length);
         }
 
+        // pega o arquivo pelo index informado pelo usuario
         File fileToDelete = files[fileIndex - 1];
 
+        // verifica aqui se usuario possui permissao para deletar o arquivo
         PermissionController permission = permissionsData.getPermissionFromFileByUser(
                 fileToDelete,
                 Auth.getCurrentUser());
 
         if (permission == null || (!permission.canDelete())) {
-            System.out.println("permission>>" + permission);
             System.out.println("Você não tem permissão para deletar este arquivo!");
             return;
         }
@@ -113,6 +116,48 @@ public class FilePermissionPages extends PageController implements PageInterface
         FileController.deleteFile(fileToDelete);
         this.permissionsData.deletePermission(permission);
         System.out.printf("\nArquivo %s deletado!", fileToDelete.getName());
+    }
+
+    protected void readFile() {
+        listFiles();
+
+        Integer fileIndex = 0;
+        File[] files = FileController.getFolderFiles();
+
+        while (true) {
+            System.out.println("\nInsira o número do arquivo:");
+            fileIndex = input.nextInt();
+
+            if (fileIndex > 0 && fileIndex <= files.length)
+                break;
+
+            System.out.printf("Número de arquivo invalido. Escolha algo entre 1 a %d", files.length);
+        }
+
+        // pega o arquivo pelo index informado pelo usuario
+        File fileToRead = files[fileIndex - 1];
+
+        // verifica aqui se usuario possui permissao para deletar o arquivo
+        PermissionController permission = permissionsData.getPermissionFromFileByUser(
+                fileToRead,
+                Auth.getCurrentUser());
+
+        if (permission == null || (!permission.canRead())) {
+            System.out.println("Você não tem permissão para ler este arquivo!");
+            return;
+        }
+
+        List<String> fileLines = FileController.readFile(fileToRead);
+        System.out.println("-".repeat(20));
+        for (int i = 0; i < fileLines.size(); i++) {
+            System.out.println(String.format("%d | %s", i + 1, fileLines.get(i)));
+        }
+        System.out.println("-".repeat(20));
+
+        // FileController.deleteFile(fileToDelete);
+        // this.permissionsData.deletePermission(permission);
+        // System.out.printf("\nArquivo %s deletado!", fileToDelete.getName());
+
     }
 
 }

@@ -169,7 +169,7 @@ public class DataController {
             // file.add(header);
 
             // for (String[] row : table) {
-            //     file.add(row);
+            // file.add(row);
             // }
             this.file = readFile(this.fileName);
 
@@ -192,13 +192,18 @@ public class DataController {
         if (table == null)
             return;
 
-        // TODO: resolver erro ao remover pelo index;
-
+        /*
+         * Por algum motivo, o metodo .remove(index)
+         * estava gerando algum erro desconhecido
+         * entao optei por usar um metodo de filtragem
+         * da lista ao invez de remover o item pelo index
+         */
         for (int i = 0; i < newTable.size(); i++) {
             if (i != index)
                 newTable.add(table.get(i));
-
         }
+
+        /* metodo que estava derando erro */
         // table.remove(index);
 
         this.saveFile(this.getHeader(), newTable);
