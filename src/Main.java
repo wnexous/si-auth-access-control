@@ -1,7 +1,14 @@
-import java.io.File;
+
+/**
+ * --------------------------------------
+ * CODIGO DESENVOLVIDO POR:
+ * - Andre Ruan Cesar Dal Negro
+ * - Camila Vieira De Oliveira
+ * --------------------------------------
+ */
+
 import java.util.Scanner;
 import auth.Auth;
-import controllers.FileController;
 import controllers.PageController;
 import interfaces.PageInterfaces;
 import pages.LoginPages;
@@ -12,21 +19,6 @@ public class Main {
     public static Scanner keyboard;
 
     public static void main(String[] args) {
-
-
-        // FileController fc = new FileController();
-
-        // for (File f : fc.getFolderFiles()) {
-        //     System.out.println(f.getName());
-        //     for (String string : fc.readFile(f)) {
-        //         System.out.println("LINHA>> " + string);
-        //     }
-        // }
-        // try {
-        //     fc.createFile("feijao1.txt");
-        // } catch (Exception e) {
-        //     System.out.println("erro " + e.getMessage());
-        // }
 
         keyboard = new Scanner(System.in);
 
