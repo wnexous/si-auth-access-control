@@ -61,7 +61,7 @@ public class FilePermissionPages extends PageController implements PageInterface
     protected void createFile() {
         System.out.println("Digite o nome do arquivo:");
         String fileName = input.nextLine();
-        PermissionsData permissionsData = new PermissionsData();
+        // PermissionsData permissionsData = new PermissionsData();
         try {
             FileController.createFile(fileName);
 
@@ -89,31 +89,26 @@ public class FilePermissionPages extends PageController implements PageInterface
             System.out.println("\nInsira o número do arquivo:");
             fileIndex = input.nextInt();
 
-            if (fileIndex > 0 && fileIndex <= files.length) {
+            if (fileIndex > 0 && fileIndex <= files.length)
                 break;
-            }
+
             System.out.printf("Número de arquivo invalido. Escolha algo entre 1 a %d", files.length);
         }
 
         File fileToDelete = files[fileIndex - 1];
-        List<PermissionController> permissionController = permissionsData.getPermissionsFromFile(fileToDelete);
-        UserTypes currentUser = Auth.getCurrentUser();
 
-        PermissionController permission = null;
-
-        for (PermissionController perm : permissionController) {
-            if (perm.getUser().getUsername().equals(currentUser.getUsername())) {
-                permission = perm;
-            }
-        }
+        PermissionController permission = permissionsData.getPermissionFromFileByUser(
+                fileToDelete,
+                Auth.getCurrentUser());
 
         if (permission == null || (!permission.canDelete())) {
-            System.out.println("Você não pode deletar esse arquivo");
-            System.out.println(permission.getUser().getUsername());
+            System.out.println("permission>>" + permission);
+            System.out.println("Você não tem permissão para deletar este arquivo!");
             return;
         }
 
         FileController.deleteFile(fileToDelete);
+        this.permissionsData.deletePermission(permission);
         System.out.printf("\nArquivo %s deletado!", fileToDelete.getName());
     }
 

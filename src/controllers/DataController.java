@@ -179,7 +179,21 @@ public class DataController {
     public void removeRowByIndex(int index) {
         List<String[]> table = getTable();
 
+        if (table == null)
+            return;
+
+        // TODO: resolver erro ao remover pelo index;
         table.remove(index);
+        this.saveFile(this.getHeader(), table);
+    }
+
+    public void removeRowByRow(String[] row) {
+        List<String[]> table = getTable();
+
+        for (String[] tr : table) {
+            if (tr.equals(row))
+                table.remove(tr);
+        }
         this.saveFile(this.getHeader(), table);
     }
 

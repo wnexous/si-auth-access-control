@@ -24,31 +24,34 @@ public class PermissionsData extends DataController {
     }
 
     // public PermissionController getPermissionByUser(UserTypes user) {
-    //     String[] rowArray = this.findItemByColumn(user.getUsername(), userColumn);
+    // String[] rowArray = this.findItemByColumn(user.getUsername(), userColumn);
 
-    //     // Caso nao encontre o usuario na tabela, retorna nulo
-    //     if (rowArray == null)
-    //         return null;
+    // // Caso nao encontre o usuario na tabela, retorna nulo
+    // if (rowArray == null)
+    // return null;
 
-    //     String usernameData = rowArray[this.getIndexFromColumn(userColumn)];
-    //     String fileData = rowArray[this.getIndexFromColumn(fileColumn)];
+    // String usernameData = rowArray[this.getIndexFromColumn(userColumn)];
+    // String fileData = rowArray[this.getIndexFromColumn(fileColumn)];
 
-    //     Boolean readData = Boolean.parseBoolean(rowArray[this.getIndexFromColumn(readColumn)]);
-    //     Boolean deleteData = Boolean.parseBoolean(rowArray[this.getIndexFromColumn(deleteColumn)]);
-    //     Boolean executeData = Boolean.parseBoolean(rowArray[this.getIndexFromColumn(executeColumn)]);
+    // Boolean readData =
+    // Boolean.parseBoolean(rowArray[this.getIndexFromColumn(readColumn)]);
+    // Boolean deleteData =
+    // Boolean.parseBoolean(rowArray[this.getIndexFromColumn(deleteColumn)]);
+    // Boolean executeData =
+    // Boolean.parseBoolean(rowArray[this.getIndexFromColumn(executeColumn)]);
 
-    //     // PermissionController precisa de um UserController como parametro em sua
-    //     // instancia
-    //     UserTypes userController = usersData.getUserByUsername(usernameData);
+    // // PermissionController precisa de um UserController como parametro em sua
+    // // instancia
+    // UserTypes userController = usersData.getUserByUsername(usernameData);
 
-    //     PermissionController permissionController = new PermissionController(
-    //             userController,
-    //             fileData,
-    //             readData,
-    //             deleteData,
-    //             executeData);
+    // PermissionController permissionController = new PermissionController(
+    // userController,
+    // fileData,
+    // readData,
+    // deleteData,
+    // executeData);
 
-    //     return permissionController;
+    // return permissionController;
     // }
 
     public List<PermissionController> getPermissionsFromFile(File file) {
@@ -86,6 +89,18 @@ public class PermissionsData extends DataController {
         return permissions;
     }
 
+    public PermissionController getPermissionFromFileByUser(File files, UserTypes user) {
+        List<PermissionController> permissionsFromFile = getPermissionsFromFile(files);
+        PermissionController permission = null;
+
+        for (PermissionController perm : permissionsFromFile) {
+            if (perm.getUser().getUsername().equals(user.getUsername())) {
+                permission = perm;
+            }
+        }
+        return permission;
+    }
+
     public void createPermission(PermissionController perm) {
         // Cria a linha da tabela
         String[] permRow = new String[] {
@@ -96,5 +111,22 @@ public class PermissionsData extends DataController {
                 perm.canExecuteStringfy()
         };
         this.appendRow(permRow);
+    }
+
+    public void deletePermission(PermissionController perm) {
+        List<String[]> table = this.getTable();
+        if (table == null)
+            return;
+
+        for (int i = 0; i < table.size(); i++) {
+            String[] row = table.get(i);
+            String userField = row[this.getIndexFromColumn(userColumn)];
+            String fileField = row[this.getIndexFromColumn(fileColumn)];
+
+            if (userField.equals(perm.getUser().getUsername()) && fileField.equals(perm.getFilename())) {
+                this.removeRowByIndex(i);
+            }
+        }
+
     }
 }

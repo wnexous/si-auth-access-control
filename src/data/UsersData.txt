@@ -1,3 +1,2 @@
 username;password
 teste;123456
-wnexous;123456
