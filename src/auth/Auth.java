@@ -1,18 +1,15 @@
 package auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import controllers.PageController;
-import controllers.UserController;
 import data.UsersData;
 import interfaces.AuthValidatorInterfaces;
 import pages.*;
+import types.UserTypes;
 
 public class Auth extends UsersData {
 
     private static Boolean isAuth = false;
-    private static UserController user;
+    private static UserTypes user;
     private static UsersData userData = new UsersData();
     private static String reasonMessage;
 
@@ -20,13 +17,17 @@ public class Auth extends UsersData {
         super();
     }
 
-    public static void signIn(UserController u) {
+    public static UserTypes getCurrentUser(){
+        return user;
+    }
+
+    public static void signIn(UserTypes u) {
 
         isAuth = false;
         user = null;
         reasonMessage = null;
 
-        UserController userController = userData.getUserByUsername(u.getUsername());
+        UserTypes userController = userData.getUserByUsername(u.getUsername());
 
         // Verifica se usuario existe na tabela
         if (userController == null) {
@@ -42,10 +43,13 @@ public class Auth extends UsersData {
 
         user = u;
         isAuth = true;
+
+        System.out.println(String.format("usuario '%s' autenticado com sucesso", u.getUsername())); 
+
         PageController.setCurrentPage(HomePages.class.getSimpleName());
     }
 
-    public static void signUp(UserController u) {
+    public static void signUp(UserTypes u) {
 
         isAuth = false;
         user = null;
@@ -53,17 +57,11 @@ public class Auth extends UsersData {
 
         String[] invalidChars = new String[] { ";", "\\", " " };
 
-        UserController userController = userData.getUserByUsername(u.getUsername());
+        UserTypes userController = userData.getUserByUsername(u.getUsername());
 
         // Verifica se usuario existe na tabela
         if (userController != null) {
             reasonMessage = String.format("usuário %s já existe!", u.getUsername());
-            return;
-        }
-
-        // verifica se a senha confere
-        if (u.getPassword().length() < 6) {
-            reasonMessage = "senha muito pequena! mínimo de 6 caracteres.";
             return;
         }
 
@@ -73,7 +71,7 @@ public class Auth extends UsersData {
             return;
         }
 
-        // verifica se a senha confere
+        // verifica se o username possui um minimo de caracteres
         if (u.getUsername().length() < 3) {
             reasonMessage = "nome de usuário muito pequeno! mínimo de 3 caracteres.";
             return;
@@ -82,7 +80,8 @@ public class Auth extends UsersData {
         for (String passChars : u.getPassword().split("")) {
             for (String invalidCharsList : invalidChars) {
                 if (passChars.equals(invalidCharsList)) {
-                    reasonMessage = String.format("O caracter %s é não pode ser usado em sua senha.", invalidCharsList);
+                    reasonMessage = String.format("O caracter '%s' é não pode ser usado em sua senha.",
+                            invalidCharsList);
                     return;
                 }
             }
@@ -97,11 +96,13 @@ public class Auth extends UsersData {
             }
         }
 
-        System.out.println("usuario criado com sucesso");
         userData.createUser(u);
 
         user = u;
         isAuth = true;
+
+        System.out.println(String.format("usuario '%s' criado e autenticado com sucesso", u.getUsername())); 
+
         PageController.setCurrentPage(HomePages.class.getSimpleName());
     }
 

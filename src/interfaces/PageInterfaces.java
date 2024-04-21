@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public interface PageInterfaces {
 
-    public String getMenuId();
+    // public String getMenuId();
 
-    public void onSelectOption(Number o);
+    public void onSelectOption(Integer o);
 
     public String getTitle();
 

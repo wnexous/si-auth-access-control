@@ -1,5 +1,7 @@
+import java.io.File;
 import java.util.Scanner;
 import auth.Auth;
+import controllers.FileController;
 import controllers.PageController;
 import interfaces.PageInterfaces;
 import pages.LoginPages;
@@ -11,6 +13,21 @@ public class Main {
 
     public static void main(String[] args) {
 
+
+        // FileController fc = new FileController();
+
+        // for (File f : fc.getFolderFiles()) {
+        //     System.out.println(f.getName());
+        //     for (String string : fc.readFile(f)) {
+        //         System.out.println("LINHA>> " + string);
+        //     }
+        // }
+        // try {
+        //     fc.createFile("feijao1.txt");
+        // } catch (Exception e) {
+        //     System.out.println("erro " + e.getMessage());
+        // }
+
         keyboard = new Scanner(System.in);
 
         // Registra as paginas
@@ -20,7 +37,7 @@ public class Main {
         PageController pages = new PageController();
 
         while (true) {
-            System.out.println("\n".repeat(20));
+            System.out.println("\n".repeat(1));
 
             if (!Auth.getUserIsValid().isValid()) {
 
@@ -47,7 +64,7 @@ public class Main {
             System.out.printf("\nSelecione uma opção: ");
 
             // captura a opcao selecionada
-            Number opt = keyboard.nextInt();
+            Integer opt = keyboard.nextInt();
 
             // inputa a opcao selecionada na callback do menu
             menu.onSelectOption(opt);

@@ -5,19 +5,19 @@ import java.util.Scanner;
 
 import auth.Auth;
 import controllers.PageController;
-import controllers.UserController;
 import interfaces.PageInterfaces;
+import types.UserTypes;
 
 public class LoginPages extends PageController implements PageInterfaces {
 
     Scanner input = new Scanner(System.in);
 
     @Override
-    public void onSelectOption(Number o) {
+    public void onSelectOption(Integer o) {
 
         // Retorar ao menu inicial
         if (o.equals(0)) {
-            PageController.setCurrentPage(HomePages.class.getSimpleName());
+            System.exit(0);
         }
 
         // Realizar login
@@ -28,7 +28,7 @@ public class LoginPages extends PageController implements PageInterfaces {
             System.out.println("Password: ");
             String password = input.nextLine();
 
-            UserController user = new UserController(username, password);
+            UserTypes user = new UserTypes(username, password);
 
             Auth.signIn(user);
         }
@@ -41,7 +41,7 @@ public class LoginPages extends PageController implements PageInterfaces {
             System.out.println("Password: ");
             String password = input.nextLine();
 
-            UserController user = new UserController(username, password);
+            UserTypes user = new UserTypes(username, password);
 
             Auth.signUp(user);
         }
@@ -58,13 +58,9 @@ public class LoginPages extends PageController implements PageInterfaces {
 
         options.add("1. Fazer login");
         options.add("2. Criar conta");
-        options.add("0. Voltar");
+        options.add("0. Encerrar");
 
         return options;
     }
 
-    @Override
-    public String getMenuId() {
-        return this.getClass().getSimpleName();
-    }
 }

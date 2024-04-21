@@ -1,34 +1,34 @@
 package pages;
 
 import java.util.ArrayList;
-
 import controllers.PageController;
 import interfaces.PageInterfaces;
 
 public class FilePermissionPages extends PageController implements PageInterfaces {
 
     @Override
-    public String getMenuId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMenuId'");
-    }
+    public void onSelectOption(Integer o) {
 
-    @Override
-    public void onSelectOption(Number o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onSelectOption'");
+        if (o == 1) {
+            System.out.println("feijaao");
+        }
     }
 
     @Override
     public String getTitle() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTitle'");
+        return "Página gerenciadora de aquivos";
     }
 
     @Override
     public ArrayList<String> getOptions() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOptions'");
-    }
+        ArrayList<String> options = new ArrayList<String>();
 
+        options.add("1. Listar arquivos.");
+        options.add("2. Criar arquivo");
+        options.add("3. Ler arquivo");
+        options.add("4. Excluir arquivo");
+        options.add("5. Executar arquivo");
+
+        return options;
+    }
 }
