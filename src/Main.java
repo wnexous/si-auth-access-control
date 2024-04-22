@@ -20,6 +20,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+       
+
         keyboard = new Scanner(System.in);
 
         // Registra as paginas

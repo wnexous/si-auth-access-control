@@ -1,2 +1,3 @@
 username;password
+nexus;senhasecreta
 teste;123456

@@ -21,14 +21,26 @@ public class FilePermissionPages extends PageController implements PageInterface
     @Override
     public void onSelectOption(String o) {
 
-        if (o.equals("1"))
-            listFiles();
-        if (o.equals("2"))
-            createFile();
-        if (o.equals("3"))
-            readFile();
-        if (o.equals("4"))
-            deleteFile();
+        switch (o) {
+            case "1":
+                listFiles();
+                break;
+            case "2":
+                createFile();
+                break;
+            case "3":
+                readFile();
+                break;
+            case "4":
+                deleteFile();
+                break;
+            case "6":
+                setCurrentPage(HomePages.class.getSimpleName());
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }
 
     }
 
@@ -46,6 +58,7 @@ public class FilePermissionPages extends PageController implements PageInterface
         options.add("3. Ler arquivo");
         options.add("4. Excluir arquivo");
         options.add("5. Executar arquivo");
+        options.add("6. Voltar");
 
         return options;
     }
@@ -57,9 +70,35 @@ public class FilePermissionPages extends PageController implements PageInterface
         if (files.length == 0) {
             System.out.println("* Nenhum arquivo encontrado *");
         }
+
+        System.out.println(String.format("| %-8s | %-15s | %-25s | %-10s | %-10s | %-10s |",
+                "Numero",
+                "Dono",
+                "Arquivo",
+                "Ler",
+                "Deletar",
+                "Executar"));
+
         for (int i = 0; i < files.length; i++) {
             Integer fileIndex = i + 1;
-            System.out.printf("\n%d) %s", fileIndex, files[i].getName());
+            File currentFile = files[i];
+
+            PermissionController permission = permissionsData.getPermissionFromFileByUser(
+                    currentFile,
+                    Auth.getCurrentUser());
+
+            // System.out.println(String.format("\n%d) %s", fileIndex,
+            // currentFile.getName()));
+
+            if (permission != null) {
+                System.out.println(String.format("| %-8s | %-15s | %-25s | %-10s | %-10s | %-10s |",
+                        fileIndex,
+                        permission.getUser().getUsername(),
+                        currentFile.getName(),
+                        permission.canRead() ? "x" : "",
+                        permission.canDelete() ? "x" : "",
+                        permission.canExecute() ? "x" : ""));
+            }
         }
     }
 
@@ -89,6 +128,11 @@ public class FilePermissionPages extends PageController implements PageInterface
 
         Integer fileIndex = 0;
         File[] files = FileController.getFolderFiles();
+
+        if (files.length == 0) {
+            System.out.println("não existem arquivos para deletar");
+            return;
+        }
 
         while (true) {
             System.out.println("\nInsira o número do arquivo:");
@@ -124,6 +168,11 @@ public class FilePermissionPages extends PageController implements PageInterface
         Integer fileIndex = 0;
         File[] files = FileController.getFolderFiles();
 
+        if (files.length == 0) {
+            System.out.println("não existem arquivos para ler");
+            return;
+        }
+
         while (true) {
             System.out.println("\nInsira o número do arquivo:");
             fileIndex = input.nextInt();
@@ -148,6 +197,12 @@ public class FilePermissionPages extends PageController implements PageInterface
         }
 
         List<String> fileLines = FileController.readFile(fileToRead);
+
+        if (fileLines.size() == 0) {
+            System.out.println(String.format("O arquivo %s nao possui nada escrito.", fileToRead.getName()));
+            return;
+        }
+
         System.out.println("-".repeat(20));
         for (int i = 0; i < fileLines.size(); i++) {
             System.out.println(String.format("%d | %s", i + 1, fileLines.get(i)));

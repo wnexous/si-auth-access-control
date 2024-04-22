@@ -1,2 +1,3 @@
 username;file;read;delete;execute
-teste;teste.txt;1;1;1
+teste;arquivoDoTeste.txt;1;1;1
+nexus;arquivoDoNexus.txt;1;0;1
