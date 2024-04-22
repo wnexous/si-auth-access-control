@@ -3,7 +3,6 @@
  * --------------------------------------
  * CODIGO DESENVOLVIDO POR:
  * - Andre Ruan Cesar Dal Negro
- * - Camila Vieira De Oliveira
  * --------------------------------------
  */
 

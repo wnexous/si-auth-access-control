@@ -34,6 +34,9 @@ public class FilePermissionPages extends PageController implements PageInterface
             case "4":
                 deleteFile();
                 break;
+            case "5":
+                executeFile();
+                break;
             case "6":
                 setCurrentPage(HomePages.class.getSimpleName());
                 break;
@@ -57,7 +60,7 @@ public class FilePermissionPages extends PageController implements PageInterface
         options.add("2. Criar arquivo");
         options.add("3. Ler arquivo");
         options.add("4. Excluir arquivo");
-        options.add("5. Executar arquivo");
+        options.add("5. Executar arquivo ");
         options.add("6. Voltar");
 
         return options;
@@ -160,6 +163,43 @@ public class FilePermissionPages extends PageController implements PageInterface
         FileController.deleteFile(fileToDelete);
         this.permissionsData.deletePermission(permission);
         System.out.printf("\nArquivo %s deletado!", fileToDelete.getName());
+    }
+
+    protected void executeFile() {
+        listFiles();
+
+        Integer fileIndex = 0;
+        File[] files = FileController.getFolderFiles();
+
+        if (files.length == 0) {
+            System.out.println("não existem arquivos para executar");
+            return;
+        }
+
+        while (true) {
+            System.out.println("\nInsira o número do arquivo:");
+            fileIndex = input.nextInt();
+
+            if (fileIndex > 0 && fileIndex <= files.length)
+                break;
+
+            System.out.printf("Número de arquivo invalido. Escolha algo entre 1 a %d", files.length);
+        }
+
+        // pega o arquivo pelo index informado pelo usuario
+        File fileToExecute = files[fileIndex - 1];
+
+        // verifica aqui se usuario possui permissao para deletar o arquivo
+        PermissionController permission = permissionsData.getPermissionFromFileByUser(
+                fileToExecute,
+                Auth.getCurrentUser());
+
+        if (permission == null || (!permission.canExecute())) {
+            System.out.println("Você não tem permissão para executar este arquivo!");
+            return;
+        }
+
+        System.out.printf("\nArquivo %s executado!", fileToExecute.getName());
     }
 
     protected void readFile() {

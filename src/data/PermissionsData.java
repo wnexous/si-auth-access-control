@@ -127,6 +127,5 @@ public class PermissionsData extends DataController {
                 this.removeRowByIndex(i);
             }
         }
-
     }
 }
