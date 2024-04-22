@@ -2,6 +2,12 @@
 
 Arquitetado e desenvolvido por **Andre Dal Negro** como trabalho somativo para a diciplina de **Segurança da informação**.
 
+# Conta teste
+
+**Usuario:** teste
+
+**Senha:** 123456
+
 # Arquitetura
 
 projeto foi desenvolvido para realizar a gestão de arquivos com sistemas de permissoes, logins e manuseio de diretorio
@@ -28,7 +34,7 @@ paginas precisam ter alguns metodos necessarios para realizar cast, entao possui
 
 ## pages
 
-pacote designado para guardar as paginas (menus) 
+pacote designado para guardar as paginas (menus)
 
 cada menu criado deve ser registrado no arquivo RegistrationPages.java
 
