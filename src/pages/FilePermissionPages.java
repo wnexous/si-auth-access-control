@@ -68,9 +68,11 @@ public class FilePermissionPages extends PageController implements PageInterface
 
     protected void listFiles() {
         System.out.println("Arquivos existentes: ");
-        File[] files = FileController.getFolderFiles();
+        // File[] files = FileController.getFolderFiles();
 
-        if (files.length == 0) {
+        List<PermissionController> permissionsFromUser = permissionsData.getPermissionsFromUser(Auth.getCurrentUser());
+
+        if (permissionsFromUser.size() == 0) {
             System.out.println("* Nenhum arquivo encontrado *");
         }
 
@@ -82,22 +84,20 @@ public class FilePermissionPages extends PageController implements PageInterface
                 "Deletar",
                 "Executar"));
 
-        for (int i = 0; i < files.length; i++) {
+        for (int i = 0; i < permissionsFromUser.size(); i++) {
             Integer fileIndex = i + 1;
-            File currentFile = files[i];
 
-            PermissionController permission = permissionsData.getPermissionFromFileByUser(
-                    currentFile,
-                    Auth.getCurrentUser());
+            PermissionController permission = permissionsFromUser.get(i);
+            // File currentFile = ;
 
             // System.out.println(String.format("\n%d) %s", fileIndex,
             // currentFile.getName()));
 
-            if (permission != null) {
+            if (permission != null && permission.getUser() != null){
                 System.out.println(String.format("| %-8s | %-15s | %-25s | %-10s | %-10s | %-10s |",
                         fileIndex,
                         permission.getUser().getUsername(),
-                        currentFile.getName(),
+                        permission.getFilename(),
                         permission.canRead() ? "x" : "",
                         permission.canDelete() ? "x" : "",
                         permission.canExecute() ? "x" : ""));
@@ -108,7 +108,6 @@ public class FilePermissionPages extends PageController implements PageInterface
     protected void createFile() {
         System.out.println("Digite o nome do arquivo:");
         String fileName = input.next();
-        // PermissionsData permissionsData = new PermissionsData();
         try {
             FileController.createFile(fileName);
 

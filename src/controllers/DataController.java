@@ -35,6 +35,14 @@ public class DataController {
         }
     }
 
+    protected void reloadFileRead(){
+        try {
+            this.file = readFile(this.fileName);
+        } catch (Exception e) {
+            System.out.println("Erro ao ler arquivo! >>" + e.getMessage());
+        }
+    }
+
     private ArrayList<String[]> readFile(String fileName) throws FileNotFoundException {
 
         Scanner scanner = new Scanner(new FileReader(fileName)).useDelimiter("\r\n");
@@ -50,6 +58,7 @@ public class DataController {
     }
 
     public ArrayList<String[]> getFile() {
+        reloadFileRead();
         return this.file;
     }
 
@@ -64,14 +73,14 @@ public class DataController {
     }
 
     public String[] getHeader() {
-        if (this.file != null)
-            return this.file.get(0);
+        if (getFile() != null)
+            return getFile().get(0);
         return null;
     }
 
     public List<String[]> getTable() {
-        if (this.file.size() > 0)
-            return this.file.subList(1, this.file.size());
+        if (getFile().size() > 0)
+            return getFile().subList(1, getFile().size());
 
         return null;
     }
