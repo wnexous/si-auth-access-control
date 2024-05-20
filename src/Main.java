@@ -7,19 +7,17 @@
  */
 
 import java.util.Scanner;
-import auth.Auth;
 import controllers.PageController;
 import interfaces.PageInterfaces;
 import pages.LoginPages;
 import pages.RegistrationPages;
+import providers.Auth;
 
 public class Main {
 
     public static Scanner keyboard;
 
     public static void main(String[] args) {
-
-       
 
         keyboard = new Scanner(System.in);
 

@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import auth.Auth;
 import controllers.FileController;
 import controllers.PageController;
 import controllers.PermissionController;
 import data.PermissionsData;
 import interfaces.PageInterfaces;
+import providers.Auth;
 import types.UserTypes;
 
 public class FilePermissionPages extends PageController implements PageInterfaces {

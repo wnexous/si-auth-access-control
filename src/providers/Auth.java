@@ -1,5 +1,6 @@
-package auth;
+package providers;
 
+import controllers.HashController;
 import controllers.PageController;
 import data.UsersData;
 import interfaces.AuthValidatorInterfaces;
@@ -17,7 +18,7 @@ public class Auth extends UsersData {
         super();
     }
 
-    public static UserTypes getCurrentUser(){
+    public static UserTypes getCurrentUser() {
         return user;
     }
 
@@ -35,8 +36,14 @@ public class Auth extends UsersData {
             return;
         }
 
+        // // verifica se a senha confere
+        // if (!(userController.getPassword().equals(u.getPassword()))) {
+        //     reasonMessage = "senha inválida.";
+        //     return;
+        // }
+
         // verifica se a senha confere
-        if (!(userController.getPassword().equals(u.getPassword()))) {
+        if (!(HashController.verify(userController.getPassword(), u.getPassword()))) {
             reasonMessage = "senha inválida.";
             return;
         }
@@ -44,7 +51,7 @@ public class Auth extends UsersData {
         user = u;
         isAuth = true;
 
-        System.out.println(String.format("usuario '%s' autenticado com sucesso", u.getUsername())); 
+        System.out.println(String.format("usuario '%s' autenticado com sucesso", u.getUsername()));
 
         PageController.setCurrentPage(HomePages.class.getSimpleName());
     }
@@ -66,13 +73,13 @@ public class Auth extends UsersData {
         }
 
         // verifica se a senha possui um minimo de caracteres
-        if (u.getPassword().length() < 6) {
+        if (u.getPassword().length() < 3) {
             reasonMessage = "senha muito pequena! mínimo de 6 caracteres.";
             return;
         }
 
         // verifica se o username possui um minimo de caracteres
-        if (u.getUsername().length() < 3) {
+        if (u.getUsername().length() < 2) {
             reasonMessage = "nome de usuário muito pequeno! mínimo de 3 caracteres.";
             return;
         }
@@ -101,7 +108,7 @@ public class Auth extends UsersData {
         user = u;
         isAuth = true;
 
-        System.out.println(String.format("usuario '%s' criado e autenticado com sucesso", u.getUsername())); 
+        System.out.println(String.format("usuario '%s' criado e autenticado com sucesso", u.getUsername()));
 
         PageController.setCurrentPage(HomePages.class.getSimpleName());
     }

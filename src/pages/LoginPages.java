@@ -3,9 +3,9 @@ package pages;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import auth.Auth;
 import controllers.PageController;
 import interfaces.PageInterfaces;
+import providers.Auth;
 import types.UserTypes;
 
 public class LoginPages extends PageController implements PageInterfaces {

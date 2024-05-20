@@ -9,6 +9,7 @@ public class RegistrationPages extends PageController {
         this.registerPage(new HomePages());
         this.registerPage(new LoginPages());
         this.registerPage(new FilePermissionPages());
+        this.registerPage(new BruteforcePage());
 
     }
 

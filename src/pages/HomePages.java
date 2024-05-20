@@ -12,6 +12,9 @@ public class HomePages extends PageController implements PageInterfaces {
         if (o.equals("1")) {
             setCurrentPage(FilePermissionPages.class.getSimpleName());
         }
+        if (o.equals("2")) {
+            setCurrentPage(BruteforcePage.class.getSimpleName());
+        }
         if (o.equals("0")) {
             System.exit(0);
         }
@@ -27,6 +30,7 @@ public class HomePages extends PageController implements PageInterfaces {
         ArrayList<String> options = new ArrayList<String>();
 
         options.add("1. Acessar gerenciador de arquivos.");
+        options.add("2. Acessar testes de força bruta.");
         options.add("0. Sair");
 
         return options;
