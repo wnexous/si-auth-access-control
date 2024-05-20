@@ -1,31 +1,31 @@
 package pages;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
-
 import controllers.HashController;
 import controllers.PageController;
 import data.UsersData;
 import interfaces.PageInterfaces;
 import types.UserTypes;
+import utils.InputUtils;
+import utils.StringUtils;
+import utils.TimerUtils;
 
 public class BruteforcePage extends PageController implements PageInterfaces {
 
     protected UsersData usersData = new UsersData();
     protected Scanner input = new Scanner(System.in);
-    public Date timer;
 
     public void onSelectOption(String o) {
 
         if (o.equals("1")) {
             UserTypes selectedUser = getSelectedUser();
-            Integer passwordSize = getPasswordSize(128);
+            Integer passwordSize = InputUtils.getNumber(3, 128, "Insira o tamanho da senha:");
             startButeforceByRecursion(selectedUser, passwordSize);
         }
         if (o.equals("2")) {
             UserTypes selectedUser = getSelectedUser();
-            Integer passwordSize = getPasswordSize(128);
+            Integer passwordSize = InputUtils.getNumber(3, 128, "Insira o tamanho da senha:");
             startButeforceByKick(selectedUser, passwordSize);
         }
         if (o.equals("0")) {
@@ -49,22 +49,7 @@ public class BruteforcePage extends PageController implements PageInterfaces {
         return options;
     }
 
-    public void startTimer() {
-        this.timer = new Date();
-    }
-
-    public void endTimer() {
-        Date currentDate = new Date();
-
-        if (this.timer != null) {
-            Long diffTime = (currentDate.getTime() - this.timer.getTime());
-            Double secondsTime = (diffTime.doubleValue() / 1000);
-            System.out.println("Tempo corrido: " + secondsTime + " segundos");
-        }
-    }
-
     public UserTypes getSelectedUser() {
-
         ArrayList<UserTypes> usersList = usersData.getAllUsers();
 
         while (true) {
@@ -86,91 +71,55 @@ public class BruteforcePage extends PageController implements PageInterfaces {
         }
     }
 
-    public Integer getPasswordSize(Integer maxSize) {
-
-        while (true) {
-            System.out.println("Informe o tamanho da senha: ");
-
-            Integer passSize = input.nextInt();
-
-            if (passSize <= maxSize) {
-                return passSize;
-            }
-
-            System.out.println("Tamanho de senha inválido. TAMANHO MAXIMO = " + maxSize);
-        }
-    }
-
-    public String getLetterFromNumber(int n) {
-        return String.valueOf((char) ((int) n + 33));
-    }
-
-    public String getRandomLetter() {
-        return getLetterFromNumber((int) Math.round(Math.random() * 94));
-    }
-
     public void startButeforceByKick(UserTypes user, Integer passSize) {
-        startTimer();
+        TimerUtils.startTimer();
         System.out.println("Iniciando bruteforce por aleatoriedade. Aguarde enquanto testamos as senhas...");
         String[] passArr = new String[passSize];
 
         while (true) {
-            for (int i = 0; i < passArr.length; i++) {
-                passArr[i] = getRandomLetter();
-            }
+            for (int i = 0; i < passArr.length; i++)
+                passArr[i] = StringUtils.getRandomLetter();
+
             if (testPassword(passArr, user.getPassword())) {
                 showFinddedPassword(passArr);
-                endTimer();
+                TimerUtils.endTimer();
                 return;
             }
         }
     }
 
     public void startButeforceByRecursion(UserTypes user, Integer passSize) {
-        startTimer();
+        TimerUtils.startTimer();
         System.out.println("Iniciando bruteforce por recursividade. Aguarde enquanto testamos as senhas...");
         String[] passArr = new String[passSize];
         String[] recursivePassword = recursiveCombination(passSize - 1, 0, passArr, user.getPassword());
         showFinddedPassword(recursivePassword);
-        endTimer();
+        TimerUtils.endTimer();
     }
 
     public void showFinddedPassword(String[] pwd) {
         System.out.println("-".repeat(60));
-        System.out.println("SENHA ENCONTRADA: " + stringArrayToString(pwd));
+        System.out.println("SENHA ENCONTRADA: " + StringUtils.stringArrayToString(pwd));
         System.out.println("-".repeat(60));
     }
 
     private String[] recursiveCombination(Integer maxLength, Integer currentLength, String[] pwd, String hashPwd) {
 
         for (int i = 0; i < 94; i++) {
-            pwd[currentLength] = getLetterFromNumber(i);
+            pwd[currentLength] = StringUtils.getLetterFromNumber(i);
 
             if (currentLength < maxLength)
                 recursiveCombination(maxLength, currentLength + 1, pwd, hashPwd);
 
-            if (testPassword(pwd, hashPwd)) {
+            if (testPassword(pwd, hashPwd))
                 return pwd;
-            }
+
         }
         return null;
     }
 
     public boolean testPassword(String[] pwd, String hashPwd) {
-        String pwdString = stringArrayToString(pwd);
-        // System.out.println("senha testada: " + pwdString);
-        return HashController.verify(hashPwd, pwdString);
+        return HashController.verify(hashPwd, StringUtils.stringArrayToString(pwd));
     }
 
-    public String stringArrayToString(String[] strArray) {
-        return String.join("", strArray);
-    }
-
-    // public Integer[] sumPass(Integer[] pwd) {
-    // // for (int i = 0; i < pwd.length; i++) {
-    // // pwd[i] =
-
-    // // }
-
-    // }
 }
