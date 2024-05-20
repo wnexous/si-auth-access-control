@@ -22,7 +22,7 @@ public class Auth extends UsersData {
         return user;
     }
 
-    public static void signIn(UserTypes u) {
+    public static boolean signIn(UserTypes u) {
 
         isAuth = false;
         user = null;
@@ -33,19 +33,13 @@ public class Auth extends UsersData {
         // Verifica se usuario existe na tabela
         if (userController == null) {
             reasonMessage = "nome de usuário inválido.";
-            return;
+            return false;
         }
-
-        // // verifica se a senha confere
-        // if (!(userController.getPassword().equals(u.getPassword()))) {
-        //     reasonMessage = "senha inválida.";
-        //     return;
-        // }
 
         // verifica se a senha confere
         if (!(HashController.verify(userController.getPassword(), u.getPassword()))) {
             reasonMessage = "senha inválida.";
-            return;
+            return false;
         }
 
         user = u;
@@ -54,9 +48,10 @@ public class Auth extends UsersData {
         System.out.println(String.format("usuario '%s' autenticado com sucesso", u.getUsername()));
 
         PageController.setCurrentPage(HomePages.class.getSimpleName());
+        return true;
     }
 
-    public static void signUp(UserTypes u) {
+    public static boolean signUp(UserTypes u) {
 
         isAuth = false;
         user = null;
@@ -69,19 +64,19 @@ public class Auth extends UsersData {
         // Verifica se usuario existe na tabela
         if (userController != null) {
             reasonMessage = String.format("usuário %s já existe!", u.getUsername());
-            return;
+            return false;
         }
 
         // verifica se a senha possui um minimo de caracteres
         if (u.getPassword().length() < 3) {
             reasonMessage = "senha muito pequena! mínimo de 6 caracteres.";
-            return;
+            return false;
         }
 
         // verifica se o username possui um minimo de caracteres
         if (u.getUsername().length() < 2) {
             reasonMessage = "nome de usuário muito pequeno! mínimo de 3 caracteres.";
-            return;
+            return false;
         }
 
         for (String passChars : u.getPassword().split("")) {
@@ -89,7 +84,7 @@ public class Auth extends UsersData {
                 if (passChars.equals(invalidCharsList)) {
                     reasonMessage = String.format("O caracter '%s' é não pode ser usado em sua senha.",
                             invalidCharsList);
-                    return;
+                    return false;
                 }
             }
         }
@@ -98,7 +93,7 @@ public class Auth extends UsersData {
                 if (userChars.equals(invalidCharsList)) {
                     reasonMessage = String.format("O caracter '%s' é não pode ser usado em seu nome de usuário.",
                             invalidCharsList);
-                    return;
+                    return false;
                 }
             }
         }
@@ -111,6 +106,7 @@ public class Auth extends UsersData {
         System.out.println(String.format("usuario '%s' criado e autenticado com sucesso", u.getUsername()));
 
         PageController.setCurrentPage(HomePages.class.getSimpleName());
+        return true;
     }
 
     public static Boolean isAuth() {

@@ -11,6 +11,8 @@ import types.UserTypes;
 public class LoginPages extends PageController implements PageInterfaces {
 
     Scanner input = new Scanner(System.in);
+    private Integer currentLoginAttempt = 0;
+    private Integer maxLoginAttempt = 3;
 
     @Override
     public void onSelectOption(String o) {
@@ -19,48 +21,75 @@ public class LoginPages extends PageController implements PageInterfaces {
         if (o.equals("0")) {
             System.exit(0);
         }
+        if (canLoggin()) {
+            // Realizar login
+            if (o.equals("1")) {
+                System.out.println("Username: ");
+                String username = input.nextLine();
 
-        // Realizar login
-        if (o.equals("1")) {
-            System.out.println("Username: ");
-            String username = input.nextLine();
+                System.out.println("Password: ");
+                String password = input.nextLine();
 
-            System.out.println("Password: ");
-            String password = input.nextLine();
+                UserTypes user = new UserTypes(username, password);
 
-            UserTypes user = new UserTypes(username, password);
+                if (Auth.signIn(user)) {
+                    resetLoginError();
+                } else {
+                    setLoginError();
+                }
+            }
 
-            Auth.signIn(user);
+            // Cadastrar conta
+            if (o.equals("2")) {
+                System.out.println("Username: ");
+                String username = input.nextLine();
+
+                System.out.println("Password: ");
+                String password = input.nextLine();
+
+                UserTypes user = new UserTypes(username, password);
+
+                if (Auth.signUp(user)) {
+                    resetLoginError();
+                } else {
+                    setLoginError();
+                }
+            }
         }
 
-        // Cadastrar conta
-        if (o.equals("2")) {
-            System.out.println("Username: ");
-            String username = input.nextLine();
-
-            System.out.println("Password: ");
-            String password = input.nextLine();
-
-            UserTypes user = new UserTypes(username, password);
-
-            Auth.signUp(user);
-        }
     }
 
     @Override
     public String getTitle() {
-        return "Menu de login";
+        String titleText = "Menu de login";
+        if (!canLoggin()) {
+            titleText += " - Máxima tentativa de login excedida";
+        }
+        return titleText;
     }
 
     @Override
     public ArrayList<String> getOptions() {
         ArrayList<String> options = new ArrayList<>();
 
-        options.add("1. Fazer login");
-        options.add("2. Criar conta");
+        if (canLoggin()) {
+            options.add("1. Fazer login");
+            options.add("2. Criar conta");
+        }
         options.add("0. Encerrar");
-
         return options;
+    }
+
+    public boolean canLoggin() {
+        return currentLoginAttempt <= maxLoginAttempt;
+    }
+
+    public void setLoginError() {
+        currentLoginAttempt += 1;
+    }
+
+    public void resetLoginError() {
+        currentLoginAttempt = 0;
     }
 
 }
